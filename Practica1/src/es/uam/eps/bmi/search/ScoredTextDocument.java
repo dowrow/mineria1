@@ -1,7 +1,7 @@
 
 package es.uam.eps.bmi.search;
 
-public class ScoredTextDocument {
+public class ScoredTextDocument implements Comparable {
     String docId;
     double score;
     
@@ -16,6 +16,14 @@ public class ScoredTextDocument {
     
     public double getScore() {
         return score;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof ScoredTextDocument) {
+            return this.docId.compareTo(((ScoredTextDocument)o).getDocId());
+        }
+        return Integer.MAX_VALUE;
     }
     
 }
