@@ -56,4 +56,9 @@ public interface Index {
      * @return lista de postings de un termino
      */
     List<Posting> getTermsPosting (String term);
+    
+    /**
+     * 
+     */
+    public String getPath();
 }

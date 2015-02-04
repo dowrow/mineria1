@@ -3,10 +3,12 @@ package es.uam.eps.bmi.search.indexing;
 
 import es.uam.eps.bmi.search.TextDocument;
 import es.uam.eps.bmi.search.parsing.TextParser;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 public class LuceneIndexing implements Index {
@@ -14,16 +16,22 @@ public class LuceneIndexing implements Index {
     @Override
     public void build(String inputCollectionPath, String outputIndexPath, TextParser textParser) {
         try {
-            File fichero = new File(inputCollectionPath);
-            ZipInputStream zis = new ZipInputStream(new FileInputStream(fichero));
+            ZipFile zipFile = new ZipFile(inputCollectionPath);
+            /*ZipInputStream zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(inputCollectionPath)));
             ZipEntry entry = null;
+            System.out.println();*/
             
-            while ((entry = zis.getNextEntry()) != null) {
+            System.out.println(zipFile.entries());
+            //Enumeration zipEntries = zipFile.entries();
+            
+            
+            /*while ((entry = zis.getNextEntry()) != null) {
                 System.out.println(entry.getName());                
-            }
+            }*/
             
         } catch (Exception e) {
-            
+            e.printStackTrace();
+           System.out.println("error");
         }
         
     }
@@ -56,6 +64,11 @@ public class LuceneIndexing implements Index {
     public static void main (String args[]) {
         LuceneIndexing li = new LuceneIndexing();
         TextParser tp = null;
-        li.build("ficherin", "index", tp);
+        li.build("C:/Users/dani/Desktop/clueweb-1K/docs.zip", "index", tp);
+    }
+
+    @Override
+    public String getPath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
