@@ -1,3 +1,4 @@
+
 package es.uam.eps.bmi.search;
 
 import java.util.Objects;
