@@ -49,6 +49,14 @@ public class LuceneIndexing implements Index {
     String path = "";
     IndexReader ireader = null;
     
+    /**
+     * Construye un índice a partir de una colección de documentos de texto plano.
+     * Usando Lucene
+     * 
+     * @param inputCollectionPath ruta de la carpeta en la que se encuentran los documentos a indexar
+     * @param outputIndexPath la ruta de la carpeta en la que almacenar el índice creado
+     * @param textParser parser de texto que procesará el texto de los documentos para su indexación
+     */
     @Override
     public void build(String inputCollectionPath, String outputIndexPath, TextParser textParser) {
         
@@ -86,11 +94,11 @@ public class LuceneIndexing implements Index {
                         Document doc = new Document();
                         
                         // Nombre (almacenar)
-                        Field nameField = new Field("name", name, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
+                        Field nameField = new Field("docID", name, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
                         doc.add(nameField);
                         
                         // Contenido (no almacenar)
-                        Field textField = new Field("text", text, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+                        Field textField = new Field("content", text, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
                         doc.add(textField);
                         
                         writer.addDocument(doc);
@@ -104,7 +112,13 @@ public class LuceneIndexing implements Index {
             System.out.println("No se pudo acceder a la colección \"" + inputCollectionPath + "\"");
         }
     }
-
+    /**
+     * Cargará en RAM (parcial o completamente) un índice creado previamente,
+     * y que se encuentra almacenado en la carpeta cuya ruta se pasa como argumento de entrada. 
+     * Usando Lucene
+     * 
+     * @param indexPath ruta del indice creado previamente
+     */
     @Override
     public void load(String indexPath) {
         try {
@@ -115,7 +129,11 @@ public class LuceneIndexing implements Index {
              System.out.println("No se pudo acceder al índice \"" + indexPath + "\"");
         }
     }
-
+    /**
+     * Devuelve los identificadores de los documentos indexados
+     * 
+     * @return  identificadores de los documentos indexados
+     */
     @Override
     public List<String> getDocIds() {
         int count = ireader.numDocs();        
@@ -127,17 +145,27 @@ public class LuceneIndexing implements Index {
         return idList;
     }
 
+    /**
+     *  Devuelve el documento del identificador dado
+     * 
+     * @param docId identificador del documento
+     * @return documento dado el identificador
+     */
     @Override
     public TextDocument getDocument(String docId) {
         try {
-            String name = ireader.document(Integer.parseInt(docId)).get("name");
+            String name = ireader.document(Integer.parseInt(docId)).get("docID");
             return new TextDocument(docId, name);
         } catch (IOException ex) {
             System.out.println("Id no válido");
         }
         return null;
     }
-
+    /**
+     * Devuelve la lista de términos extraídos de los documentos indexados
+     * 
+     * @return lista de términos extraídos
+     */
     @Override
     public List<String> getTerms() {
         ArrayList<String> termList = new ArrayList<>();
@@ -154,16 +182,25 @@ public class LuceneIndexing implements Index {
         }
         return termList;
     }
-
+    
+    /**
+     * Devuelve los postings de un término dado
+     * 
+     * @param term Termino a buscar para devolver sus postings
+     * @return lista de postings de un termino
+     */
     @Override
     public List<Posting> getTermsPosting(String term) {
         ArrayList<Posting> postingList = new ArrayList<>();
         try {
-            TermDocs termDocs = ireader.termDocs();
-            TermPositions termPositions = ireader.termPositions(new Term(term));
-            termDocs.seek(new Term(term));
-            
+           
+            TermDocs termDocs = ireader.termDocs(new Term("content", term));
+            TermPositions termPositions = ireader.termPositions(new Term("content", term));
+            //si se usa seek termDocs se borra
+            //termDocs.seek(new Term(term));
+           
             while(termDocs.next()) {
+               
                 int docId = termDocs.doc();
                 int freq = termDocs.freq();
                 ArrayList<Long> positions = new ArrayList<>();
@@ -188,6 +225,7 @@ public class LuceneIndexing implements Index {
     
     /**
      * Devuelve el texto como una cadena leyendo de un inputstream
+     * 
      * @param input Devuelve el texto como una cadena leyendo de un inputstream
      * @return Cadena con todo el contenido
      */
@@ -220,6 +258,7 @@ public class LuceneIndexing implements Index {
     public static void main (String args[]) {
         
         if (args.length != 2) {
+            System.out.println(args.length);
             System.out.println("Recibe dos argumentos: Ruta a docs.zip y ruta donde almacenar el índice");
             return;
         }

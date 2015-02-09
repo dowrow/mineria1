@@ -43,6 +43,7 @@ public class LuceneTest {
         // Añadir documentos al índice
         for (String url : urls) {
             Document doc = new Document();
+            
             doc.add(new Field("docID", url, Field.Store.YES, Field.Index.NOT_ANALYZED));
             doc.add(new Field("content", readURLText(url), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
             iwriter.addDocument(doc);
