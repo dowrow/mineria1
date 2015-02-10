@@ -23,8 +23,7 @@ public class TestSearcher {
      * @param args 
      */
     public static void main (String args[]) {
-        FileWriter fw = null;
-        //try {
+        
             if (args.length != 3) {
                 System.out.println("Recibe 3 argumentos: Indice, lista de queries y lista de docs relevantes");
                 return;
