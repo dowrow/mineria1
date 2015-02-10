@@ -25,6 +25,7 @@ public class LuceneSearcher implements Searcher {
     private IndexReader ireader = null;
     private QueryParser qParser = null;
     private IndexSearcher isearcher = null;
+    private int topDocs = 1000;
     @Override
     public void build(Index index) {
         
@@ -41,8 +42,6 @@ public class LuceneSearcher implements Searcher {
         }catch(Exception e){
              Logger.getLogger(LuceneSearcher.class.getName()).log(Level.SEVERE, null, e);
         }
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -50,8 +49,8 @@ public class LuceneSearcher implements Searcher {
         ArrayList<ScoredTextDocument> scoredTDList = new ArrayList<>();
         try{
             Query q = this.qParser.parse(query);
-            int topDocs = 10;
-            ScoreDoc result[] = this.isearcher.search(q, topDocs).scoreDocs;
+            
+            ScoreDoc result[] = this.isearcher.search(q, this.topDocs).scoreDocs;
             
             for(int i = 0; i < result.length; i++){
                 //hacer un cambio entre identificador de documento 

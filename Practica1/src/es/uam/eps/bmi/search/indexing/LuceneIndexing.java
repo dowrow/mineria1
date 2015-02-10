@@ -94,7 +94,7 @@ public class LuceneIndexing implements Index {
                         Document doc = new Document();
                         
                         // Nombre (almacenar)
-                        Field nameField = new Field("docID", name, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
+                        Field nameField = new Field("name", name, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
                         doc.add(nameField);
                         
                         // Contenido (no almacenar)
@@ -154,7 +154,7 @@ public class LuceneIndexing implements Index {
     @Override
     public TextDocument getDocument(String docId) {
         try {
-            String name = ireader.document(Integer.parseInt(docId)).get("docID");
+            String name = ireader.document(Integer.parseInt(docId)).get("name");
             return new TextDocument(docId, name);
         } catch (IOException ex) {
             System.out.println("Id no válido");
