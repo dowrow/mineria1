@@ -62,7 +62,7 @@ public class LuceneIndexing implements Index {
             
             // Crear o reemplazar un indice 
             iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-            iwc.setRAMBufferSizeMB(256.0);
+            iwc.setRAMBufferSizeMB(512.0);
             IndexWriter writer = new IndexWriter(dir, iwc);
 
             while (entries.hasMoreElements()) {
