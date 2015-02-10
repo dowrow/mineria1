@@ -46,16 +46,16 @@ public class TestSearcher {
             ArrayList<ArrayList<String>> relevantFilenames = parseRelevantFilenames(args[2]);
             
             // Calcular precisiones para cada consulta
-            ArrayList<Double> p3s = new ArrayList<>();
             ArrayList<Double> p5s = new ArrayList<>();
+            ArrayList<Double> p10s = new ArrayList<>();
             for (int i = 0; i < queries.size(); i++) {
                 List<ScoredTextDocument> results = ls.search(queries.get(i));
-                p3s.add(calculatePrecision(results, relevantFilenames.get(i), 3));
-                p5s.add(calculatePrecision(results, relevantFilenames.get(i), 5));
+                p5s.add(calculatePrecision(results, relevantFilenames.get(i), 3));
+                p10s.add(calculatePrecision(results, relevantFilenames.get(i), 5));
             }
-            System.out.println("Id \t p@3\t p@5");
+            System.out.println("Id \t p@5\t p@10");
             for (int i = 0; i < queries.size(); i++) {
-                System.out.println((i+1) + " \t" + p3s.get(i) + "\t" + p5s.get(i));
+                System.out.println((i+1) + " \t" + p5s.get(i) + "\t" + p10s.get(i));
             }
         
     }
