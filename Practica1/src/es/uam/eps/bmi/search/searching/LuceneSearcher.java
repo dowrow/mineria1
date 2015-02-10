@@ -20,12 +20,21 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Version;
 
+
+/**
+ * @author Diego Castaño y Daniel Garnacho
+ */
 public class LuceneSearcher implements Searcher {
     // Inspeccionar el índice
     private IndexReader ireader = null;
     private QueryParser qParser = null;
     private IndexSearcher isearcher = null;
     private int topDocs = 1000;
+    
+    /**
+     * Crea el buscador a partir del índice pasado como argumento de entrada
+     * @param index índice con el que crear el buscador
+     */
     @Override
     public void build(Index index) {
         
@@ -44,6 +53,13 @@ public class LuceneSearcher implements Searcher {
         }
     }
 
+    /**
+     * Que devolverá un ranking (ordenado por score decreciente) de documentos, 
+     * resultantes de ejecutar una consultada dada sobre el índice del buscador.
+     * 
+     * @param query Consulta a ejecutar
+     * @return ranking (ordenado por score decreciente) de documentos
+     */
     @Override
     public List<ScoredTextDocument> search(String query) {
         ArrayList<ScoredTextDocument> scoredTDList = new ArrayList<>();
@@ -55,7 +71,6 @@ public class LuceneSearcher implements Searcher {
             for(int i = 0; i < result.length; i++){
                 //hacer un cambio entre identificador de documento 
                 //a String del documento
-                
                 ScoredTextDocument sctd = new ScoredTextDocument(result[i].doc+"" , result[i].score);
                 scoredTDList.add(sctd);
             }
