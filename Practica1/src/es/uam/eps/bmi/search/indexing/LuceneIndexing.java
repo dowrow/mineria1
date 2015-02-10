@@ -4,10 +4,8 @@ package es.uam.eps.bmi.search.indexing;
 import es.uam.eps.bmi.search.TextDocument;
 import es.uam.eps.bmi.search.parsing.HTMLSimpleParser;
 import es.uam.eps.bmi.search.parsing.TextParser;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,27 +16,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.NumericField;
-import org.apache.lucene.index.FieldInvertState;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.index.TermEnum;
-import org.apache.lucene.index.TermFreqVector;
 import org.apache.lucene.index.TermPositions;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
-import org.apache.lucene.util.IOUtils;
 import org.apache.lucene.util.Version;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  * @author Diego Castaño y Daniel Garnacho
@@ -204,7 +196,7 @@ public class LuceneIndexing implements Index {
                 int docId = termDocs.doc();
                 int freq = termDocs.freq();
                 ArrayList<Long> positions = new ArrayList<>();
-                for (int i = 0; i < freq; i++) {
+                while (termPositions.next()) {
                     positions.add((long)termPositions.nextPosition());
                 }
                 Posting p = new Posting(docId + "", freq, positions);
@@ -258,7 +250,6 @@ public class LuceneIndexing implements Index {
     public static void main (String args[]) {
         
         if (args.length != 2) {
-            System.out.println(args.length);
             System.out.println("Recibe dos argumentos: Ruta a docs.zip y ruta donde almacenar el índice");
             return;
         }

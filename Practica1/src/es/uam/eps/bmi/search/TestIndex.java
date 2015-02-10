@@ -13,15 +13,14 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class TextIndex {
+public class TestIndex {
     /*
      * Recibe dos argumentos: Ruta a docs.zip y ruta donde almacenar el índice
      */
     public static void main (String args[]) throws Exception {
         
         if (args.length != 3) {
-            System.out.println(args.length);
-            System.out.println("Recibe 3 argumentos: Ruta a docs.zip y ruta donde almacenar el índice y el ultimo donde se almacena la estadistica");
+            System.out.println("Recibe 3 argumentos: Ruta a docs.zip, ruta donde almacenar el índice y ruta donde se almacena la estadistica");
             return;
         }
 
@@ -33,38 +32,23 @@ public class TextIndex {
         System.out.println("Cargando índice en RAM...");
         li.load(args[1]);
         
-        /*System.out.println("Lista de ids: ");
-        System.out.println(li.getDocIds());*/
-        
-        /*System.out.println("Lista de TextDocuments: ");
-        for (String id : li.getDocIds()) {
-            TextDocument document = li.getDocument(id);
-            System.out.println(document);
-        }
-        
-        System.out.println("Lista de terminos: ");*/
-        
         FileWriter fw = new FileWriter(args[2]);
         
         ArrayList<FrecObject> listaFrecuencias = new ArrayList<>();
         for (String term: li.getTerms()) {
             int nDocs = 0;
             int termFrequency = 0;
-            //System.out.println("Posting para termino " + term);
             for (Posting p : li.getTermsPosting(term)) {
                 termFrequency += p.getTermFrequency();
                 nDocs++;
-                //System.out.println(p.getDocId() + " " + p.getTermFrequency() + " " + p.getTermPositions());
-                
             }
             listaFrecuencias.add(new FrecObject(term,termFrequency,nDocs));
         }
         Collections.sort(listaFrecuencias, new FrecObject());
         for(FrecObject fo : listaFrecuencias){
-            fw.write(fo.getPalabla() + "\t" + fo.getFrecuencia() +"\t" + fo.getnFicheros() + "\n");
+            fw.write(fo.getPalabla() + ";" + fo.getFrecuencia() + ";" + fo.getnFicheros() + "\n");
         }
-        //
-    }
+   }
     
 }
 
