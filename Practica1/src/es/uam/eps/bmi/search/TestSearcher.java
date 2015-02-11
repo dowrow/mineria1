@@ -49,8 +49,8 @@ public class TestSearcher {
             ArrayList<Double> p10s = new ArrayList<>();
             for (int i = 0; i < queries.size(); i++) {
                 List<ScoredTextDocument> results = ls.search(queries.get(i));
-                p5s.add(calculatePrecision(results, relevantFilenames.get(i), 3));
-                p10s.add(calculatePrecision(results, relevantFilenames.get(i), 5));
+                p5s.add(calculatePrecision(results, relevantFilenames.get(i), 5));
+                p10s.add(calculatePrecision(results, relevantFilenames.get(i), 10));
             }
             System.out.println("Id \t p@5\t p@10");
             DecimalFormat df = new DecimalFormat("#.##");

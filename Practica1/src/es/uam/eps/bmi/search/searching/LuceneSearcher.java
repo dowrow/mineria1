@@ -45,7 +45,7 @@ public class LuceneSearcher implements Searcher {
             this.isearcher = new IndexSearcher(this.ireader);
             //query parser, parsea igual que el creador de indices.
             Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_31);
-            this.qParser = new QueryParser(Version.LUCENE_36, "content", analyzer);
+            this.qParser = new QueryParser(Version.LUCENE_31, "content", analyzer);
             
         }catch(Exception e){
              Logger.getLogger(LuceneSearcher.class.getName()).log(Level.SEVERE, null, e);
