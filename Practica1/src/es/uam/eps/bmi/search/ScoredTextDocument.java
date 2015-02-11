@@ -1,10 +1,18 @@
 
 package es.uam.eps.bmi.search;
 
+/**
+ * @author Diego Castaño y Daniel Garnacho
+ */
 public class ScoredTextDocument implements Comparable {
     String docId;
     double score;
     
+    /**
+     * Constructor
+     * @param docId
+     * @param score 
+     */
     public ScoredTextDocument (String docId, double score) {
         this.docId = docId;
         this.score = score;

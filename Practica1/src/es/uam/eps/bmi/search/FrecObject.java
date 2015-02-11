@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uam.eps.bmi.search;
 
 import java.util.Comparator;
 
 /**
- *
- * @author dani
+ * @author Diego Castaño y Daniel Garnacho
  */
 public class FrecObject implements Comparator<FrecObject>{
     private String palabla;

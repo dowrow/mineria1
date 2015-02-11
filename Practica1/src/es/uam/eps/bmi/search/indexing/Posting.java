@@ -9,6 +9,12 @@ public class Posting {
     private final int termFrequency;
     private final List<Long> termPositions;
     
+    /**
+     * Constructor
+     * @param docId
+     * @param termFrequency
+     * @param termPositions 
+     */
     public Posting (String docId, int termFrequency, List<Long> termPositions) {
         this.docId = docId;
         this.termFrequency = termFrequency;

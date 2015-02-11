@@ -5,7 +5,7 @@ import es.uam.eps.bmi.search.indexing.LuceneIndexing;
 import es.uam.eps.bmi.search.searching.LuceneSearcher;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,8 +53,9 @@ public class TestSearcher {
                 p10s.add(calculatePrecision(results, relevantFilenames.get(i), 5));
             }
             System.out.println("Id \t p@5\t p@10");
+            DecimalFormat df = new DecimalFormat("#.##");
             for (int i = 0; i < queries.size(); i++) {
-                System.out.println((i+1) + " \t" + p5s.get(i) + "\t" + p10s.get(i));
+                System.out.println((i+1) + " \t" + df.format(p5s.get(i)) + "\t" + df.format(p10s.get(i)));
             }
         
     }

@@ -3,7 +3,6 @@ package es.uam.eps.bmi.search.searching;
 
 import es.uam.eps.bmi.search.ScoredTextDocument;
 import es.uam.eps.bmi.search.indexing.Index;
-import es.uam.eps.bmi.search.indexing.LuceneIndexing;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
