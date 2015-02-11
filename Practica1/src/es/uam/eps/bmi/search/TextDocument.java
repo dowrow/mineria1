@@ -22,7 +22,7 @@ public class TextDocument {
     
     /**
      * Get document id
-     * @return 
+     * @return Document id
      */
     public String getId() {
         return id;
@@ -30,7 +30,7 @@ public class TextDocument {
     
     /**
      * Get document name
-     * @return 
+     * @return Document name
      */
     public String getName() {
         return name;
